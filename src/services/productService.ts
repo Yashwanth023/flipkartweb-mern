@@ -14,6 +14,22 @@ export const getAllProducts = async (category?: string): Promise<Product[]> => {
   return productData;
 };
 
+// Filter products by category and price range
+export const filterProducts = async (
+  category?: string,
+  minPrice: number = 0,
+  maxPrice: number = 50000
+): Promise<Product[]> => {
+  // Simulate API call delay
+  await new Promise(resolve => setTimeout(resolve, 300));
+  
+  return productData.filter(product => {
+    const matchesCategory = !category || product.category.toLowerCase() === category.toLowerCase();
+    const matchesPrice = product.price >= minPrice && product.price <= maxPrice;
+    return matchesCategory && matchesPrice;
+  });
+};
+
 // Get a single product by ID
 export const getProductById = async (id: string): Promise<Product | null> => {
   // Simulate API call delay
@@ -35,6 +51,18 @@ export const searchProducts = async (query: string): Promise<Product[]> => {
     product.description.toLowerCase().includes(lowerCaseQuery) ||
     product.category.toLowerCase().includes(lowerCaseQuery)
   );
+};
+
+// Update product stock
+export const updateStock = async (productId: string, newStock: number): Promise<boolean> => {
+  // Simulate API call delay
+  await new Promise(resolve => setTimeout(resolve, 300));
+  
+  const productIndex = productData.findIndex(p => p.id === productId);
+  if (productIndex === -1) return false;
+  
+  productData[productIndex].stock = newStock;
+  return true;
 };
 
 // Get products with low stock (for admin dashboard)

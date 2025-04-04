@@ -208,7 +208,7 @@ const DashboardTab = ({ metrics }: { metrics: DashboardMetrics }) => {
                         order.status === OrderStatus.CANCELLED
                           ? "destructive"
                           : order.status === OrderStatus.DELIVERED
-                          ? "success"
+                          ? "secondary"
                           : "default"
                       }
                     >
@@ -329,9 +329,9 @@ const OrdersTab = ({
     const currentIndex = allStatuses.indexOf(currentStatus);
     
     // Return all statuses except the current one and cancelled if already delivered
-    return allStatuses.filter((status, index) => {
+    return allStatuses.filter((status) => {
       if (status === currentStatus) return false;
-      if (currentStatus === OrderStatus.DELIVERED && status === OrderStatus.CANCELLED) return false;
+      if (status === OrderStatus.CANCELLED && currentStatus === OrderStatus.DELIVERED) return false;
       return true;
     });
   };
@@ -368,7 +368,7 @@ const OrdersTab = ({
                         order.status === OrderStatus.CANCELLED
                           ? "destructive"
                           : order.status === OrderStatus.DELIVERED
-                          ? "success"
+                          ? "secondary"
                           : "default"
                       }
                     >
@@ -454,7 +454,7 @@ const CouponsTab = ({
                     {new Date(coupon.validUntil).toLocaleDateString()}
                   </TableCell>
                   <TableCell>
-                    <Badge variant={coupon.isActive ? "success" : "secondary"}>
+                    <Badge variant={coupon.isActive ? "secondary" : "outline"}>
                       {coupon.isActive ? "Active" : "Inactive"}
                     </Badge>
                   </TableCell>

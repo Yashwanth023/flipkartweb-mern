@@ -81,7 +81,7 @@ const OrdersPage = () => {
       case OrderStatus.SHIPPING:
         return "default";
       case OrderStatus.DELIVERED:
-        return "success";
+        return "secondary";
       case OrderStatus.CANCELLED:
         return "destructive";
       default:

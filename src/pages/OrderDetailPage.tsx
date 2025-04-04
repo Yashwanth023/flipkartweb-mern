@@ -52,7 +52,7 @@ const OrderDetailPage = () => {
       case OrderStatus.SHIPPING:
         return "default";
       case OrderStatus.DELIVERED:
-        return "success";
+        return "secondary";
       case OrderStatus.CANCELLED:
         return "destructive";
       default:
@@ -210,7 +210,7 @@ const OrderDetailPage = () => {
                   <li className="relative pb-6">
                     <div className="flex items-center">
                       <div className={`absolute left-0 h-8 w-8 rounded-full flex items-center justify-center ${order.status !== OrderStatus.PLACED ? 'bg-brand-600' : 'bg-gray-300'}`}>
-                        <span className={order.status !== OrderStatus.PLACED ? 'text-white' : 'text-gray-600'} className="text-sm">2</span>
+                        <span className="text-sm text-white">2</span>
                       </div>
                       <div className="ml-12">
                         <h3 className={`font-medium ${order.status === OrderStatus.CANCELLED ? 'text-gray-400' : ''}`}>
@@ -230,7 +230,7 @@ const OrderDetailPage = () => {
                   <li className="relative pb-6">
                     <div className="flex items-center">
                       <div className={`absolute left-0 h-8 w-8 rounded-full flex items-center justify-center ${order.status === OrderStatus.SHIPPING || order.status === OrderStatus.DELIVERED ? 'bg-brand-600' : 'bg-gray-300'}`}>
-                        <span className={order.status === OrderStatus.SHIPPING || order.status === OrderStatus.DELIVERED ? 'text-white' : 'text-gray-600'} className="text-sm">3</span>
+                        <span className="text-sm text-white">3</span>
                       </div>
                       <div className="ml-12">
                         <h3 className={`font-medium ${order.status === OrderStatus.CANCELLED ? 'text-gray-400' : ''}`}>
@@ -250,7 +250,7 @@ const OrderDetailPage = () => {
                   <li className="relative">
                     <div className="flex items-center">
                       <div className={`absolute left-0 h-8 w-8 rounded-full flex items-center justify-center ${order.status === OrderStatus.DELIVERED ? 'bg-brand-600' : 'bg-gray-300'}`}>
-                        <span className={order.status === OrderStatus.DELIVERED ? 'text-white' : 'text-gray-600'} className="text-sm">4</span>
+                        <span className="text-sm text-white">4</span>
                       </div>
                       <div className="ml-12">
                         <h3 className={`font-medium ${order.status === OrderStatus.CANCELLED ? 'text-gray-400' : ''}`}>
