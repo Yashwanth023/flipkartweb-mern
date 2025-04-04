@@ -34,6 +34,9 @@
     --ring: 180 72% 37%;
 
     --radius: 0.5rem;
+    
+    --success: 142 71% 45%;
+    --success-foreground: 0 0% 100%;
   }
 
   .dark {
@@ -64,6 +67,9 @@
     --border: 180 20% 25%;
     --input: 180 20% 25%;
     --ring: 175 84% 32%;
+    
+    --success: 142 71% 45%;
+    --success-foreground: 0 0% 100%;
   }
 }
 
@@ -88,5 +94,25 @@
   
   .badge-notify {
     @apply absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-accent text-xs font-bold text-white;
+  }
+  
+  .nav-item {
+    @apply relative text-gray-700 hover:text-primary transition-colors after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-primary after:transition-all hover:after:w-full;
+  }
+  
+  .btn-success {
+    @apply bg-success text-success-foreground hover:bg-success/90;
+  }
+  
+  .gradient-text {
+    @apply bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent;
+  }
+  
+  .card-hover {
+    @apply transition-all hover:shadow-lg hover:border-primary/20;
+  }
+  
+  .glass-effect {
+    @apply bg-white/70 backdrop-blur-sm;
   }
 }
