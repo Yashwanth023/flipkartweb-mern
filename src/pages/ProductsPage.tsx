@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { getAllProducts, getCategories, searchProducts } from "@/services/productService";
@@ -31,15 +30,12 @@ const ProductsPage = () => {
   const query = searchParams.get("q") || "";
   const categoryParam = searchParams.get("category") || "";
 
-  // Define the filterProducts function here to handle local filtering
   const filterProducts = (category?: string, minPrice?: number, maxPrice?: number) => {
     return products.filter(product => {
-      // Apply category filter if specified
       if (category && product.category !== category) {
         return false;
       }
       
-      // Apply price range filter
       if (minPrice !== undefined && product.price < minPrice) {
         return false;
       }
@@ -62,12 +58,10 @@ const ProductsPage = () => {
         setProducts(allProducts);
         setCategories(allCategories);
         
-        // Initialize category from URL params
         if (categoryParam) {
           setSelectedCategory(categoryParam);
         }
 
-        // Find min and max prices
         const prices = allProducts.map(p => p.price);
         const minPrice = Math.min(...prices);
         const maxPrice = Math.max(...prices);
@@ -90,17 +84,14 @@ const ProductsPage = () => {
         let results: Product[] = [];
         
         if (query) {
-          // Search by query
           results = await searchProducts(query);
         } else if (selectedCategory || priceRange[0] > 0 || priceRange[1] < 50000) {
-          // Apply filters
           results = filterProducts(
             selectedCategory || undefined, 
             priceRange[0], 
             priceRange[1]
           );
         } else {
-          // No filters, show all products
           results = [...products];
         }
         
@@ -159,7 +150,6 @@ const ProductsPage = () => {
         </div>
 
         <div className="flex flex-col md:flex-row gap-6">
-          {/* Filters - Desktop */}
           <div className="w-full md:w-64 hidden md:block">
             <div className="bg-white p-4 rounded-lg border">
               <div className="flex items-center justify-between mb-4">
@@ -175,7 +165,6 @@ const ProductsPage = () => {
               </div>
 
               <div className="space-y-6">
-                {/* Category Filter */}
                 <div>
                   <label className="block text-sm font-medium mb-2">
                     Category
@@ -195,7 +184,6 @@ const ProductsPage = () => {
                   </Select>
                 </div>
 
-                {/* Price Range Filter */}
                 <div>
                   <label className="block text-sm font-medium mb-2">
                     Price Range
@@ -236,7 +224,6 @@ const ProductsPage = () => {
             </div>
           </div>
 
-          {/* Mobile Filters */}
           {showFilters && (
             <div className="md:hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
               <div className="bg-white rounded-lg w-full max-w-sm p-6">
@@ -252,7 +239,6 @@ const ProductsPage = () => {
                 </div>
 
                 <div className="space-y-6">
-                  {/* Category Filter - Mobile */}
                   <div>
                     <label className="block text-sm font-medium mb-2">
                       Category
@@ -272,7 +258,6 @@ const ProductsPage = () => {
                     </Select>
                   </div>
 
-                  {/* Price Range Filter - Mobile */}
                   <div>
                     <label className="block text-sm font-medium mb-2">
                       Price Range
@@ -330,7 +315,6 @@ const ProductsPage = () => {
             </div>
           )}
 
-          {/* Product Grid */}
           <div className="flex-1">
             {isLoading ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">

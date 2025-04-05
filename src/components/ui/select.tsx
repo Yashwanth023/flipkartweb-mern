@@ -116,7 +116,8 @@ const SelectItem = React.forwardRef<
 >(({ className, children, ...props }, ref) => {
   // Add a validation to ensure the value prop is not an empty string
   if (props.value === "") {
-    console.warn("SelectItem must have a non-empty value prop");
+    console.error("SelectItem must have a non-empty value prop");
+    // Return null to prevent rendering the item with an empty value
     return null;
   }
   
