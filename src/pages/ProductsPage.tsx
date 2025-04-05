@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { getAllProducts, getCategories, filterProducts, searchProducts } from "@/services/productService";
+import { getAllProducts, getCategories, searchProducts } from "@/services/productService";
 import { Product } from "@/types";
 import ProductCard from "@/components/ProductCard";
 import { Button } from "@/components/ui/button";
@@ -30,6 +30,27 @@ const ProductsPage = () => {
 
   const query = searchParams.get("q") || "";
   const categoryParam = searchParams.get("category") || "";
+
+  // Define the filterProducts function here to handle local filtering
+  const filterProducts = (category?: string, minPrice?: number, maxPrice?: number) => {
+    return products.filter(product => {
+      // Apply category filter if specified
+      if (category && product.category !== category) {
+        return false;
+      }
+      
+      // Apply price range filter
+      if (minPrice !== undefined && product.price < minPrice) {
+        return false;
+      }
+      
+      if (maxPrice !== undefined && product.price > maxPrice) {
+        return false;
+      }
+      
+      return true;
+    });
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -73,7 +94,7 @@ const ProductsPage = () => {
           results = await searchProducts(query);
         } else if (selectedCategory || priceRange[0] > 0 || priceRange[1] < 50000) {
           // Apply filters
-          results = await filterProducts(
+          results = filterProducts(
             selectedCategory || undefined, 
             priceRange[0], 
             priceRange[1]
@@ -164,7 +185,7 @@ const ProductsPage = () => {
                       <SelectValue placeholder="All Categories" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="">All Categories</SelectItem>
+                      <SelectItem value="all_categories">All Categories</SelectItem>
                       {categories.map((category) => (
                         <SelectItem key={category} value={category}>
                           {category}
@@ -241,7 +262,7 @@ const ProductsPage = () => {
                         <SelectValue placeholder="All Categories" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="">All Categories</SelectItem>
+                        <SelectItem value="all_categories">All Categories</SelectItem>
                         {categories.map((category) => (
                           <SelectItem key={category} value={category}>
                             {category}
