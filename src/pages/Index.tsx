@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { getAllProducts, getCategories } from "@/services/productService";
@@ -73,7 +74,7 @@ const Index = () => {
   ];
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-100">
+    <div className="min-h-screen flex flex-col bg-slate-100 dark:bg-gray-900">
       <Navbar />
       
       <main className="flex-1">
@@ -97,7 +98,7 @@ const Index = () => {
           <Button 
             variant="ghost" 
             size="icon" 
-            className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-black rounded-full"
+            className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-black rounded-full dark:bg-black/50 dark:hover:bg-black/70 dark:text-white"
             onClick={prevSlide}
           >
             <ChevronLeft className="h-6 w-6" />
@@ -106,7 +107,7 @@ const Index = () => {
           <Button 
             variant="ghost" 
             size="icon" 
-            className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-black rounded-full"
+            className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-black rounded-full dark:bg-black/50 dark:hover:bg-black/70 dark:text-white"
             onClick={nextSlide}
           >
             <ChevronRight className="h-6 w-6" />
@@ -126,14 +127,14 @@ const Index = () => {
         </div>
 
         {/* Category Grid */}
-        <div className="bg-white py-4 px-4 mb-2 shadow-sm">
+        <div className="bg-white py-4 px-4 mb-2 shadow-sm dark:bg-gray-800">
           <div className="container mx-auto">
             <div className="grid grid-cols-5 md:grid-cols-10 gap-2">
               {categories.slice(0, 10).map((category, index) => (
                 <Link
                   key={category}
                   to={`/products?category=${category.toLowerCase()}`}
-                  className="flipkart-category-item text-center"
+                  className="flipkart-category-item text-center dark:text-gray-200"
                 >
                   <span className="text-2xl mb-1">{categoryIcons[index % categoryIcons.length]}</span>
                   <span className="text-xs md:text-sm font-medium">{category}</span>
@@ -145,11 +146,11 @@ const Index = () => {
 
         {/* Deals of the Day */}
         <div className="container mx-auto px-4 py-4">
-          <div className="bg-white rounded-sm p-4 mb-4">
+          <div className="bg-white rounded-sm p-4 mb-4 dark:bg-gray-800 dark:text-white">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-bold">Deals of the Day</h2>
               <Link to="/products">
-                <Button variant="ghost" className="text-primary hover:text-primary/80">
+                <Button variant="ghost" className="text-primary hover:text-primary/80 dark:text-blue-400 dark:hover:text-blue-300">
                   View All
                 </Button>
               </Link>
@@ -159,9 +160,9 @@ const Index = () => {
               <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
                 {[...Array(5)].map((_, index) => (
                   <div key={index} className="animate-pulse">
-                    <div className="bg-gray-200 h-40 rounded-sm mb-2"></div>
-                    <div className="h-4 bg-gray-200 rounded-sm w-3/4 mb-2"></div>
-                    <div className="h-4 bg-gray-200 rounded-sm w-1/2"></div>
+                    <div className="bg-gray-200 h-40 rounded-sm mb-2 dark:bg-gray-700"></div>
+                    <div className="h-4 bg-gray-200 rounded-sm w-3/4 mb-2 dark:bg-gray-700"></div>
+                    <div className="h-4 bg-gray-200 rounded-sm w-1/2 dark:bg-gray-700"></div>
                   </div>
                 ))}
               </div>
@@ -175,11 +176,11 @@ const Index = () => {
           </div>
           
           {/* New Arrivals */}
-          <div className="bg-white rounded-sm p-4 mb-4">
+          <div className="bg-white rounded-sm p-4 mb-4 dark:bg-gray-800 dark:text-white">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-bold">New Arrivals</h2>
               <Link to="/products">
-                <Button variant="ghost" className="text-primary hover:text-primary/80">
+                <Button variant="ghost" className="text-primary hover:text-primary/80 dark:text-blue-400 dark:hover:text-blue-300">
                   View All
                 </Button>
               </Link>
@@ -189,9 +190,9 @@ const Index = () => {
               <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
                 {[...Array(5)].map((_, index) => (
                   <div key={index} className="animate-pulse">
-                    <div className="bg-gray-200 h-40 rounded-sm mb-2"></div>
-                    <div className="h-4 bg-gray-200 rounded-sm w-3/4 mb-2"></div>
-                    <div className="h-4 bg-gray-200 rounded-sm w-1/2"></div>
+                    <div className="bg-gray-200 h-40 rounded-sm mb-2 dark:bg-gray-700"></div>
+                    <div className="h-4 bg-gray-200 rounded-sm w-3/4 mb-2 dark:bg-gray-700"></div>
+                    <div className="h-4 bg-gray-200 rounded-sm w-1/2 dark:bg-gray-700"></div>
                   </div>
                 ))}
               </div>
@@ -205,11 +206,11 @@ const Index = () => {
           </div>
           
           {/* Suggested for You */}
-          <div className="bg-white rounded-sm p-4">
+          <div className="bg-white rounded-sm p-4 dark:bg-gray-800 dark:text-white">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-bold">Suggested for You</h2>
               <Link to="/products">
-                <Button variant="ghost" className="text-primary hover:text-primary/80">
+                <Button variant="ghost" className="text-primary hover:text-primary/80 dark:text-blue-400 dark:hover:text-blue-300">
                   View All
                 </Button>
               </Link>
@@ -219,9 +220,9 @@ const Index = () => {
               <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
                 {[...Array(10)].map((_, index) => (
                   <div key={index} className="animate-pulse">
-                    <div className="bg-gray-200 h-40 rounded-sm mb-2"></div>
-                    <div className="h-4 bg-gray-200 rounded-sm w-3/4 mb-2"></div>
-                    <div className="h-4 bg-gray-200 rounded-sm w-1/2"></div>
+                    <div className="bg-gray-200 h-40 rounded-sm mb-2 dark:bg-gray-700"></div>
+                    <div className="h-4 bg-gray-200 rounded-sm w-3/4 mb-2 dark:bg-gray-700"></div>
+                    <div className="h-4 bg-gray-200 rounded-sm w-1/2 dark:bg-gray-700"></div>
                   </div>
                 ))}
               </div>

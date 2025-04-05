@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-900 text-white pt-12 pb-8">
+    <footer className="bg-gray-900 text-white pt-12 pb-8 dark:bg-gray-950">
       <div className="container mx-auto px-4">
         {/* Newsletter Subscription */}
         <div className="border-b border-gray-800 pb-8 mb-8">
@@ -31,7 +31,10 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Company Info */}
           <div>
-            <h3 className="text-xl font-bold mb-4">VibrantCart</h3>
+            <h3 className="text-xl font-bold mb-4 flex items-center">
+              <img src="/logo.svg" alt="FlipKart Logo" className="w-6 h-6 mr-2" />
+              FlipKart
+            </h3>
             <p className="text-gray-400 mb-4">
               Your one-stop shop for all your shopping needs. Quality products, amazing prices.
             </p>
@@ -184,7 +187,7 @@ export default function Footer() {
               </div>
               <div className="flex items-center">
                 <Mail className="w-5 h-5 text-gray-400 mr-2 flex-shrink-0" />
-                <span className="text-gray-400">support@vibrantcart.com</span>
+                <span className="text-gray-400">support@flipkart.com</span>
               </div>
               <div className="flex items-center">
                 <Clock className="w-5 h-5 text-gray-400 mr-2 flex-shrink-0" />
@@ -206,7 +209,7 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-gray-800 mt-6 pt-6 text-sm text-gray-500 text-center">
-          <p>© {new Date().getFullYear()} VibrantCart. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} FlipKart. All rights reserved.</p>
         </div>
       </div>
     </footer>
