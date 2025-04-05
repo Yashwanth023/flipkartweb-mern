@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { getAllProducts, getCategories } from "@/services/productService";
@@ -19,10 +18,10 @@ const Index = () => {
   // Carousel state
   const [currentSlide, setCurrentSlide] = useState(0);
   const carouselImages = [
-    "/lovable-uploads/8a8e2d0f-822d-413a-9651-547f1a3111a5.png",
-    "/lovable-uploads/25176adb-f0c3-451e-9c10-d86c85123bfb.png",
-    "/lovable-uploads/182ee77b-8b60-4d47-9a94-831c9d65d41c.png",
-    "/lovable-uploads/ee818ae4-ea49-4c36-a7f1-7fcf1066ce51.png"
+    "https://images.unsplash.com/photo-1607082349566-187342175e2f?q=80&w=2070&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1598971639058-bb4741c32139?q=80&w=1974&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1572584642822-6f8de0243c93?q=80&w=2070&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1605902711622-cfb43c4437b5?q=80&w=2069&auto=format&fit=crop"
   ];
 
   useEffect(() => {
