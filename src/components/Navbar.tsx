@@ -1,5 +1,5 @@
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
   ShoppingCart,
@@ -10,10 +10,8 @@ import {
   Menu,
   X,
   Heart,
-  Home,
-  ShoppingBag,
-  Phone,
-  Info
+  Plus,
+  ChevronDown
 } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
@@ -33,13 +31,14 @@ import { UserRole } from "@/types";
 export default function Navbar() {
   const { isAuthenticated, user, logout, isAdmin } = useAuth();
   const { getCartCount } = useCart();
+  const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      window.location.href = `/search?q=${encodeURIComponent(searchQuery)}`;
+      navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
     }
   };
 
@@ -47,217 +46,208 @@ export default function Navbar() {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  const categories = [
+    "Electronics", "Fashion", "Home", "Beauty", "Appliances", "Toys", "Grocery"
+  ];
+
   return (
-    <nav className="bg-gradient-to-r from-white to-brand-50 shadow-md py-4 px-4 sticky top-0 z-50">
-      <div className="container mx-auto flex justify-between items-center">
-        {/* Logo and Name */}
-        <Link to="/" className="flex items-center space-x-2">
-          <img src="/logo.svg" alt="VibrantCart Logo" className="h-10 w-10" />
-          <span className="text-2xl font-bold gradient-text">VibrantCart</span>
-        </Link>
-
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center space-x-8">
-          <Link to="/" className="nav-item flex items-center gap-1">
-            <Home size={16} />
-            <span>Home</span>
-          </Link>
-          <Link to="/products" className="nav-item flex items-center gap-1">
-            <ShoppingBag size={16} />
-            <span>Products</span>
-          </Link>
-          <Link to="/about" className="nav-item flex items-center gap-1">
-            <Info size={16} />
-            <span>About</span>
-          </Link>
-          <Link to="/contact" className="nav-item flex items-center gap-1">
-            <Phone size={16} />
-            <span>Contact</span>
-          </Link>
-        </div>
-
-        {/* Search Form - Desktop */}
-        <form onSubmit={handleSearch} className="hidden md:flex relative w-64">
-          <Input
-            type="text"
-            placeholder="Search products..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full rounded-full bg-white/80 pr-10 border-primary/20 focus-visible:ring-primary"
-          />
-          <Button 
-            type="submit" 
-            size="icon" 
-            variant="ghost" 
-            className="absolute right-0 rounded-full"
-          >
-            <Search size={18} className="text-primary" />
-          </Button>
-        </form>
-
-        {/* Auth and Cart Buttons - Desktop */}
-        <div className="hidden md:flex items-center space-x-4">
-          {isAuthenticated ? (
-            <>
-              <Link to="/favorites">
-                <Button variant="ghost" size="icon" className="relative rounded-full bg-white/80 border border-primary/10 hover:bg-primary/10">
-                  <Heart className="h-5 w-5 text-accent-500" />
-                </Button>
+    <div className="sticky top-0 z-50">
+      {/* Main Navbar */}
+      <div className="bg-primary text-white py-2 px-4 md:py-3 md:px-8">
+        <div className="container mx-auto">
+          <div className="flex flex-row items-center justify-between">
+            {/* Logo and Search - Desktop */}
+            <div className="flex items-center flex-1 space-x-4">
+              {/* Logo */}
+              <Link to="/" className="flex items-center">
+                <span className="text-xl font-bold mr-2">FlipKart</span>
+                <span className="text-xs italic text-yellow-300">Explore <span className="text-secondary">Plus</span></span>
               </Link>
-              
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon" className="relative rounded-full bg-white/80 border border-primary/10 hover:bg-primary/10">
-                    <User className="h-5 w-5 text-primary" />
+
+              {/* Search - Desktop */}
+              <form onSubmit={handleSearch} className="hidden md:flex flex-1 max-w-3xl">
+                <div className="relative flex w-full">
+                  <Input
+                    type="text"
+                    placeholder="Search for products, brands and more"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full rounded-l-sm rounded-r-none bg-white text-black py-2 px-4 border-none focus-visible:ring-0"
+                  />
+                  <Button 
+                    type="submit" 
+                    className="rounded-l-none rounded-r-sm bg-secondary hover:bg-secondary/90 px-4 h-full"
+                  >
+                    <Search size={20} />
                   </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-56 glass-effect">
-                  <DropdownMenuLabel>
-                    <div className="flex flex-col">
-                      <span className="font-bold">{user?.name}</span>
-                      <span className="text-xs text-gray-500">{user?.mobile}</span>
-                    </div>
-                  </DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem>
-                    <Link to="/profile" className="flex w-full items-center">
-                      <User className="mr-2 h-4 w-4" />
-                      <span>Profile</span>
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <Link to="/orders" className="flex w-full items-center">
-                      <Package className="mr-2 h-4 w-4" />
-                      <span>Orders</span>
-                    </Link>
-                  </DropdownMenuItem>
-                  {isAdmin && (
-                    <>
+                </div>
+              </form>
+            </div>
+
+            {/* Auth and Cart Buttons - Desktop */}
+            <div className="hidden md:flex items-center space-x-6">
+              {isAuthenticated ? (
+                <>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="ghost" className="text-white py-1 px-2 flex items-center space-x-1 hover:bg-transparent hover:text-white/90">
+                        <User className="h-5 w-5" />
+                        <span>{user?.name.split(' ')[0]}</span>
+                        <ChevronDown className="h-4 w-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="w-56">
+                      <DropdownMenuLabel>
+                        <div className="flex flex-col">
+                          <span className="font-bold">{user?.name}</span>
+                          <span className="text-xs text-gray-500">{user?.mobile}</span>
+                        </div>
+                      </DropdownMenuLabel>
                       <DropdownMenuSeparator />
                       <DropdownMenuItem>
-                        <Link to="/admin" className="flex w-full items-center">
-                          <ShoppingBag className="mr-2 h-4 w-4" />
-                          <span>Admin Dashboard</span>
+                        <Link to="/profile" className="flex w-full items-center">
+                          <User className="mr-2 h-4 w-4" />
+                          <span>My Profile</span>
                         </Link>
                       </DropdownMenuItem>
-                    </>
-                  )}
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={logout} className="text-red-500 hover:text-red-700">
-                    <LogOut className="mr-2 h-4 w-4" />
-                    <span>Log out</span>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+                      <DropdownMenuItem>
+                        <Link to="/orders" className="flex w-full items-center">
+                          <Package className="mr-2 h-4 w-4" />
+                          <span>My Orders</span>
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem>
+                        <Link to="/favorites" className="flex w-full items-center">
+                          <Heart className="mr-2 h-4 w-4" />
+                          <span>Wishlist</span>
+                        </Link>
+                      </DropdownMenuItem>
+                      {isAdmin && (
+                        <>
+                          <DropdownMenuSeparator />
+                          <DropdownMenuItem>
+                            <Link to="/admin" className="flex w-full items-center">
+                              <Plus className="mr-2 h-4 w-4" />
+                              <span>Admin Dashboard</span>
+                            </Link>
+                          </DropdownMenuItem>
+                        </>
+                      )}
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem onClick={logout} className="text-red-500 hover:text-red-700">
+                        <LogOut className="mr-2 h-4 w-4" />
+                        <span>Log out</span>
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                  
+                  <Link to="/cart" className="flex items-center space-x-1 text-white hover:text-white/90">
+                    <div className="relative">
+                      <ShoppingCart className="h-5 w-5" />
+                      {getCartCount() > 0 && (
+                        <Badge className="absolute -top-2 -right-2 h-4 w-4 flex items-center justify-center p-0 bg-secondary">
+                          {getCartCount()}
+                        </Badge>
+                      )}
+                    </div>
+                    <span>Cart</span>
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <Link to="/login">
+                    <Button variant="ghost" className="text-white bg-white/10 hover:bg-white/20 px-8">Login</Button>
+                  </Link>
+                </>
+              )}
+            </div>
 
-              <Link to="/cart">
-                <Button variant="ghost" size="icon" className="relative rounded-full bg-white/80 border border-primary/10 hover:bg-primary/10">
-                  <ShoppingCart className="h-5 w-5 text-primary" />
-                  {getCartCount() > 0 && (
-                    <Badge className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 bg-accent">
-                      {getCartCount()}
-                    </Badge>
-                  )}
-                </Button>
-              </Link>
-            </>
-          ) : (
-            <>
-              <Link to="/login">
-                <Button variant="outline" className="rounded-full border-primary hover:bg-primary/10 hover:text-primary">Login</Button>
-              </Link>
-              <Link to="/register">
-                <Button className="rounded-full">Register</Button>
-              </Link>
-            </>
-          )}
-        </div>
-
-        {/* Mobile Menu Button */}
-        <div className="md:hidden flex items-center space-x-4">
-          {isAuthenticated && (
-            <Link to="/cart">
-              <Button variant="ghost" size="icon" className="relative rounded-full">
-                <ShoppingCart className="h-5 w-5" />
-                {getCartCount() > 0 && (
-                  <Badge className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 bg-accent">
-                    {getCartCount()}
-                  </Badge>
-                )}
+            {/* Mobile Menu Button */}
+            <div className="md:hidden flex items-center space-x-4">
+              {isAuthenticated && (
+                <Link to="/cart">
+                  <Button variant="ghost" size="icon" className="relative text-white hover:bg-transparent hover:text-white/90">
+                    <ShoppingCart className="h-5 w-5" />
+                    {getCartCount() > 0 && (
+                      <Badge className="absolute -top-2 -right-2 h-4 w-4 flex items-center justify-center p-0 bg-secondary">
+                        {getCartCount()}
+                      </Badge>
+                    )}
+                  </Button>
+                </Link>
+              )}
+              <Button variant="ghost" size="icon" onClick={toggleMenu} className="text-white hover:bg-transparent hover:text-white/90">
+                {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
               </Button>
-            </Link>
-          )}
-          <Button variant="ghost" size="icon" onClick={toggleMenu} className="rounded-full">
-            {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Search - Mobile */}
+      <div className="md:hidden bg-primary px-4 pb-2">
+        <form onSubmit={handleSearch}>
+          <div className="relative flex w-full">
+            <Input
+              type="text"
+              placeholder="Search products, brands and more"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full rounded-sm bg-white text-black py-2 px-4 border-none focus-visible:ring-0"
+            />
+            <Button 
+              type="submit" 
+              className="absolute right-0 top-0 bottom-0 rounded-l-none rounded-r-sm bg-secondary px-4"
+            >
+              <Search size={18} />
+            </Button>
+          </div>
+        </form>
+      </div>
+
+      {/* Categories Bar */}
+      <div className="bg-white shadow-sm py-2 px-4 overflow-x-auto hidden md:block">
+        <div className="container mx-auto">
+          <div className="flex space-x-10 justify-between">
+            {categories.map((category) => (
+              <Link
+                key={category}
+                to={`/products?category=${category.toLowerCase()}`}
+                className="flipkart-category-item whitespace-nowrap"
+              >
+                <span>{category}</span>
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="md:hidden bg-white px-4 pt-2 pb-4 shadow-lg animate-fade-in mt-4 rounded-lg">
-          <form onSubmit={handleSearch} className="mb-4 relative">
-            <Input
-              type="text"
-              placeholder="Search products..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full rounded-full pr-10"
-            />
-            <Button 
-              type="submit" 
-              size="icon" 
-              variant="ghost" 
-              className="absolute right-0 top-0 rounded-full"
-            >
-              <Search size={18} />
-            </Button>
-          </form>
-          
+        <div className="md:hidden bg-white border-t px-4 py-4 shadow-lg">
           <div className="flex flex-col space-y-3">
-            <Link 
-              to="/" 
-              className="text-gray-700 hover:text-primary py-2 transition-colors flex items-center gap-2"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              <Home size={18} />
-              <span>Home</span>
-            </Link>
-            <Link 
-              to="/products" 
-              className="text-gray-700 hover:text-primary py-2 transition-colors flex items-center gap-2"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              <ShoppingBag size={18} />
-              <span>Products</span>
-            </Link>
-            <Link 
-              to="/about" 
-              className="text-gray-700 hover:text-primary py-2 transition-colors flex items-center gap-2"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              <Info size={18} />
-              <span>About</span>
-            </Link>
-            <Link 
-              to="/contact" 
-              className="text-gray-700 hover:text-primary py-2 transition-colors flex items-center gap-2"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              <Phone size={18} />
-              <span>Contact</span>
-            </Link>
+            {categories.map((category) => (
+              <Link 
+                key={category}
+                to={`/products?category=${category.toLowerCase()}`} 
+                className="text-gray-700 hover:text-primary py-2 transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                {category}
+              </Link>
+            ))}
+            
+            <div className="h-px bg-gray-200 my-2"></div>
             
             {isAuthenticated ? (
               <>
-                <div className="h-px bg-gray-200 my-2"></div>
                 <Link 
                   to="/profile" 
                   className="text-gray-700 hover:text-primary py-2 transition-colors flex items-center gap-2"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   <User size={18} />
-                  <span>Profile</span>
+                  <span>My Profile</span>
                 </Link>
                 <Link 
                   to="/orders" 
@@ -265,7 +255,7 @@ export default function Navbar() {
                   onClick={() => setIsMenuOpen(false)}
                 >
                   <Package size={18} />
-                  <span>Orders</span>
+                  <span>My Orders</span>
                 </Link>
                 <Link 
                   to="/favorites" 
@@ -273,7 +263,7 @@ export default function Navbar() {
                   onClick={() => setIsMenuOpen(false)}
                 >
                   <Heart size={18} />
-                  <span>Favorites</span>
+                  <span>Wishlist</span>
                 </Link>
                 {isAdmin && (
                   <Link 
@@ -281,7 +271,7 @@ export default function Navbar() {
                     className="text-gray-700 hover:text-primary py-2 transition-colors flex items-center gap-2"
                     onClick={() => setIsMenuOpen(false)}
                   >
-                    <ShoppingBag size={18} />
+                    <Plus size={18} />
                     <span>Admin Dashboard</span>
                   </Link>
                 )}
@@ -298,10 +288,9 @@ export default function Navbar() {
               </>
             ) : (
               <>
-                <div className="h-px bg-gray-200 my-2"></div>
                 <Link 
                   to="/login" 
-                  className="text-gray-700 hover:text-primary py-2 transition-colors"
+                  className="text-primary font-medium py-2 transition-colors"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Login
@@ -318,6 +307,6 @@ export default function Navbar() {
           </div>
         </div>
       )}
-    </nav>
+    </div>
   );
 }

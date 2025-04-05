@@ -1,183 +1,241 @@
 
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { getAllProducts, getCategories } from "@/services/productService";
 import { Product } from "@/types";
 import ProductCard from "@/components/ProductCard";
-import { Button } from "@/components/ui/button";
-import { ShoppingBag, Tag, Zap, ShieldCheck } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { Button } from "@/components/ui/button";
+import { ChevronRight, ChevronLeft } from "lucide-react";
 
 const Index = () => {
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
+  const [newArrivals, setNewArrivals] = useState<Product[]>([]);
+  const [topRated, setTopRated] = useState<Product[]>([]);
   const [categories, setCategories] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  
+  // Carousel state
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const carouselImages = [
+    "/lovable-uploads/8a8e2d0f-822d-413a-9651-547f1a3111a5.png",
+    "/lovable-uploads/25176adb-f0c3-451e-9c10-d86c85123bfb.png",
+    "/lovable-uploads/182ee77b-8b60-4d47-9a94-831c9d65d41c.png",
+    "/lovable-uploads/ee818ae4-ea49-4c36-a7f1-7fcf1066ce51.png"
+  ];
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setIsLoading(true);
-        const products = await getAllProducts();
-        const cats = await getCategories();
+        const allCategories = await getCategories();
+        const allProducts = await getAllProducts();
         
-        // Get a slice of products as featured
-        setFeaturedProducts(products.slice(0, 4));
-        setCategories(cats);
+        setCategories(allCategories);
+        
+        // Get featured products (first 10)
+        setFeaturedProducts(allProducts.slice(0, 10));
+        
+        // Get new arrivals (randomize for demo)
+        const shuffled = [...allProducts].sort(() => 0.5 - Math.random());
+        setNewArrivals(shuffled.slice(0, 10));
+        
+        // Get top rated products (another random subset for demo)
+        const shuffledAgain = [...allProducts].sort(() => 0.5 - Math.random());
+        setTopRated(shuffledAgain.slice(0, 10));
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching products:", error);
       } finally {
         setIsLoading(false);
       }
     };
 
     fetchData();
+
+    // Auto slide carousel
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev === carouselImages.length - 1 ? 0 : prev + 1));
+    }, 5000);
+
+    return () => clearInterval(interval);
   }, []);
 
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev === carouselImages.length - 1 ? 0 : prev + 1));
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev === 0 ? carouselImages.length - 1 : prev - 1));
+  };
+
+  const categoryIcons = [
+    "📱", "👕", "🏠", "💄", "🔌", "🧸", "🛒", "💻", "📚", "🎮"
+  ];
+
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-slate-100">
       <Navbar />
       
-      {/* Hero Section */}
-      <section className="bg-gradient-to-r from-brand-700 to-brand-500 text-white py-16">
-        <div className="container mx-auto px-4 md:px-8">
-          <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">Shop the Latest Trends</h1>
-            <p className="text-lg mb-8 opacity-90">
-              Discover premium products with free shipping and guaranteed satisfaction.
-            </p>
-            <Link to="/products">
-              <Button className="bg-white text-brand-700 hover:bg-gray-100">
-                Shop Now
-              </Button>
-            </Link>
+      <main className="flex-1">
+        {/* Main Hero Carousel */}
+        <div className="relative overflow-hidden">
+          <div 
+            className="flex transition-transform duration-500 ease-out" 
+            style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+          >
+            {carouselImages.map((image, index) => (
+              <div key={index} className="min-w-full">
+                <img 
+                  src={image} 
+                  alt={`Slide ${index + 1}`}
+                  className="w-full h-48 md:h-72 lg:h-96 object-cover object-center"
+                />
+              </div>
+            ))}
+          </div>
+          
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-black rounded-full"
+            onClick={prevSlide}
+          >
+            <ChevronLeft className="h-6 w-6" />
+          </Button>
+          
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-black rounded-full"
+            onClick={nextSlide}
+          >
+            <ChevronRight className="h-6 w-6" />
+          </Button>
+          
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2">
+            {carouselImages.map((_, index) => (
+              <button
+                key={index}
+                className={`h-2 w-2 rounded-full ${
+                  currentSlide === index ? "bg-white" : "bg-white/50"
+                }`}
+                onClick={() => setCurrentSlide(index)}
+              />
+            ))}
           </div>
         </div>
-      </section>
 
-      {/* Features Section */}
-      <section className="py-12 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="flex flex-col items-center text-center p-6">
-              <div className="bg-brand-50 p-3 rounded-full mb-4">
-                <ShoppingBag className="h-6 w-6 text-brand-600" />
-              </div>
-              <h3 className="font-medium text-lg mb-2">Free Shipping</h3>
-              <p className="text-gray-600">On all orders over ₹500</p>
-            </div>
-            
-            <div className="flex flex-col items-center text-center p-6">
-              <div className="bg-brand-50 p-3 rounded-full mb-4">
-                <Tag className="h-6 w-6 text-brand-600" />
-              </div>
-              <h3 className="font-medium text-lg mb-2">Best Prices</h3>
-              <p className="text-gray-600">Direct from manufacturers</p>
-            </div>
-            
-            <div className="flex flex-col items-center text-center p-6">
-              <div className="bg-brand-50 p-3 rounded-full mb-4">
-                <Zap className="h-6 w-6 text-brand-600" />
-              </div>
-              <h3 className="font-medium text-lg mb-2">Fast Delivery</h3>
-              <p className="text-gray-600">Express shipping options</p>
-            </div>
-            
-            <div className="flex flex-col items-center text-center p-6">
-              <div className="bg-brand-50 p-3 rounded-full mb-4">
-                <ShieldCheck className="h-6 w-6 text-brand-600" />
-              </div>
-              <h3 className="font-medium text-lg mb-2">Secure Payments</h3>
-              <p className="text-gray-600">100% secure checkout</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Featured Products Section */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          <div className="flex justify-between items-center mb-8">
-            <h2 className="text-2xl font-bold">Featured Products</h2>
-            <Link to="/products">
-              <Button variant="outline">View All</Button>
-            </Link>
-          </div>
-
-          {isLoading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {[...Array(4)].map((_, index) => (
-                <div key={index} className="animate-pulse">
-                  <div className="bg-gray-200 aspect-square rounded-md"></div>
-                  <div className="mt-4 h-4 bg-gray-200 rounded w-3/4"></div>
-                  <div className="mt-2 h-4 bg-gray-200 rounded w-1/2"></div>
-                  <div className="mt-2 h-4 bg-gray-200 rounded w-1/4"></div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {featuredProducts.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </div>
-          )}
-        </div>
-      </section>
-
-      {/* Categories Section */}
-      <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <h2 className="text-2xl font-bold mb-8 text-center">Shop by Category</h2>
-
-          {isLoading ? (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {[...Array(3)].map((_, index) => (
-                <div key={index} className="animate-pulse">
-                  <div className="bg-gray-200 aspect-video rounded-md"></div>
-                  <div className="mt-4 h-4 bg-gray-200 rounded w-1/2 mx-auto"></div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {categories.slice(0, 3).map((category) => (
-                <Link 
-                  key={category} 
-                  to={`/products?category=${category}`}
-                  className="group"
+        {/* Category Grid */}
+        <div className="bg-white py-4 px-4 mb-2 shadow-sm">
+          <div className="container mx-auto">
+            <div className="grid grid-cols-5 md:grid-cols-10 gap-2">
+              {categories.slice(0, 10).map((category, index) => (
+                <Link
+                  key={category}
+                  to={`/products?category=${category.toLowerCase()}`}
+                  className="flipkart-category-item text-center"
                 >
-                  <div className="relative overflow-hidden rounded-lg aspect-video bg-gray-200">
-                    <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center transition-opacity group-hover:bg-opacity-30">
-                      <h3 className="text-white text-xl font-semibold">{category}</h3>
-                    </div>
-                  </div>
+                  <span className="text-2xl mb-1">{categoryIcons[index % categoryIcons.length]}</span>
+                  <span className="text-xs md:text-sm font-medium">{category}</span>
                 </Link>
               ))}
             </div>
-          )}
+          </div>
         </div>
-      </section>
 
-      {/* Newsletter Section */}
-      <section className="bg-accent py-16 text-white">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-3">Stay Updated</h2>
-          <p className="max-w-lg mx-auto mb-6">
-            Subscribe to our newsletter for exclusive offers, new arrivals, and shopping tips.
-          </p>
-          <form className="flex flex-col md:flex-row gap-2 max-w-md mx-auto">
-            <input
-              type="email"
-              placeholder="Your email address"
-              className="flex-grow px-4 py-2 rounded-md text-gray-900 focus:outline-none"
-            />
-            <Button className="bg-white text-accent hover:bg-gray-100">
-              Subscribe
-            </Button>
-          </form>
+        {/* Deals of the Day */}
+        <div className="container mx-auto px-4 py-4">
+          <div className="bg-white rounded-sm p-4 mb-4">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-bold">Deals of the Day</h2>
+              <Link to="/products">
+                <Button variant="ghost" className="text-primary hover:text-primary/80">
+                  View All
+                </Button>
+              </Link>
+            </div>
+            
+            {isLoading ? (
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+                {[...Array(5)].map((_, index) => (
+                  <div key={index} className="animate-pulse">
+                    <div className="bg-gray-200 h-40 rounded-sm mb-2"></div>
+                    <div className="h-4 bg-gray-200 rounded-sm w-3/4 mb-2"></div>
+                    <div className="h-4 bg-gray-200 rounded-sm w-1/2"></div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+                {featuredProducts.slice(0, 5).map((product) => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
+              </div>
+            )}
+          </div>
+          
+          {/* New Arrivals */}
+          <div className="bg-white rounded-sm p-4 mb-4">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-bold">New Arrivals</h2>
+              <Link to="/products">
+                <Button variant="ghost" className="text-primary hover:text-primary/80">
+                  View All
+                </Button>
+              </Link>
+            </div>
+            
+            {isLoading ? (
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+                {[...Array(5)].map((_, index) => (
+                  <div key={index} className="animate-pulse">
+                    <div className="bg-gray-200 h-40 rounded-sm mb-2"></div>
+                    <div className="h-4 bg-gray-200 rounded-sm w-3/4 mb-2"></div>
+                    <div className="h-4 bg-gray-200 rounded-sm w-1/2"></div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+                {newArrivals.slice(0, 5).map((product) => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
+              </div>
+            )}
+          </div>
+          
+          {/* Suggested for You */}
+          <div className="bg-white rounded-sm p-4">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-bold">Suggested for You</h2>
+              <Link to="/products">
+                <Button variant="ghost" className="text-primary hover:text-primary/80">
+                  View All
+                </Button>
+              </Link>
+            </div>
+            
+            {isLoading ? (
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+                {[...Array(10)].map((_, index) => (
+                  <div key={index} className="animate-pulse">
+                    <div className="bg-gray-200 h-40 rounded-sm mb-2"></div>
+                    <div className="h-4 bg-gray-200 rounded-sm w-3/4 mb-2"></div>
+                    <div className="h-4 bg-gray-200 rounded-sm w-1/2"></div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+                {topRated.slice(0, 10).map((product) => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
+              </div>
+            )}
+          </div>
         </div>
-      </section>
+      </main>
 
       <Footer />
     </div>

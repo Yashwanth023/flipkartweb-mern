@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -207,7 +206,7 @@ const DashboardTab = ({ metrics }: { metrics: DashboardMetrics }) => {
                       variant={
                         order.status === OrderStatus.CANCELLED
                           ? "destructive"
-                          : order.status === OrderStatus.DELIVERED
+                          : (order.status as OrderStatus) === OrderStatus.DELIVERED
                           ? "secondary"
                           : "default"
                       }
@@ -321,7 +320,7 @@ const OrdersTab = ({
     const allStatuses = Object.values(OrderStatus);
     
     // If the order is cancelled or delivered, don't allow status change
-    if (currentStatus === OrderStatus.CANCELLED || currentStatus === OrderStatus.DELIVERED) {
+    if (currentStatus === OrderStatus.CANCELLED || (currentStatus as OrderStatus) === OrderStatus.DELIVERED) {
       return [];
     }
     
@@ -367,7 +366,7 @@ const OrdersTab = ({
                       variant={
                         order.status === OrderStatus.CANCELLED
                           ? "destructive"
-                          : order.status === OrderStatus.DELIVERED
+                          : (order.status as OrderStatus) === OrderStatus.DELIVERED
                           ? "secondary"
                           : "default"
                       }
