@@ -24,7 +24,7 @@ const Index = () => {
     "https://images.unsplash.com/photo-1605902711622-cfb43c4437b5?w=2069&auto=format&fit=crop&q=80",
     "https://images.unsplash.com/photo-1607082349566-187342175e2f?w=2070&auto=format&fit=crop&q=80",
     "https://images.unsplash.com/photo-1598971639058-bb4741c32139?w=1974&auto=format&fit=crop&q=80",
-    "https://images.unsplash.com/photo-1572584642822-6f8de0243c93?w=2070&auto=format&fit=crop&q=80"
+    "https://images.unsplash.com/photo-1542280756-74b2f55e73ab?w=1974&auto=format&fit=crop&q=80" // Fixed missing image
   ];
 
   useEffect(() => {
@@ -180,7 +180,7 @@ const Index = () => {
           </div>
 
           {/* Deals of the Day */}
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 mb-8 shadow-md border border-gray-100 dark:border-gray-700">
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 mb-8 shadow-md border border-gray-100 dark:border-gray-700 hover:shadow-xl transition-all">
             <div className="flex justify-between items-center mb-6">
               <div>
                 <h2 className="text-2xl font-bold text-gray-800 dark:text-white">Deals of the Day</h2>
@@ -217,7 +217,7 @@ const Index = () => {
           </div>
           
           {/* New Arrivals */}
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 mb-8 shadow-md border border-gray-100 dark:border-gray-700">
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 mb-8 shadow-md border border-gray-100 dark:border-gray-700 hover:shadow-xl transition-all">
             <div className="flex justify-between items-center mb-6">
               <div>
                 <h2 className="text-2xl font-bold text-gray-800 dark:text-white">New Arrivals</h2>
@@ -254,7 +254,7 @@ const Index = () => {
           </div>
           
           {/* Top Rated Home Products */}
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 mb-8 shadow-md border border-gray-100 dark:border-gray-700">
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 mb-8 shadow-md border border-gray-100 dark:border-gray-700 hover:shadow-xl transition-all">
             <div className="flex justify-between items-center mb-6">
               <div>
                 <h2 className="text-2xl font-bold text-gray-800 dark:text-white">Home & Kitchen Essentials</h2>
@@ -293,7 +293,7 @@ const Index = () => {
           {/* Featured Categories */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             <Link to="/products?category=beauty" className="block">
-              <Card className="overflow-hidden hover:shadow-lg transition-shadow">
+              <Card className="overflow-hidden hover:shadow-lg transition-shadow transform hover:scale-102">
                 <CardContent className="p-0 relative">
                   <img 
                     src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&auto=format&fit=crop&q=80" 
@@ -309,7 +309,7 @@ const Index = () => {
               </Card>
             </Link>
             <Link to="/products?category=sports & fitness" className="block">
-              <Card className="overflow-hidden hover:shadow-lg transition-shadow">
+              <Card className="overflow-hidden hover:shadow-lg transition-shadow transform hover:scale-102">
                 <CardContent className="p-0 relative">
                   <img 
                     src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=800&auto=format&fit=crop&q=80" 
@@ -327,7 +327,7 @@ const Index = () => {
           </div>
           
           {/* Recommended For You */}
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 mb-8 shadow-md border border-gray-100 dark:border-gray-700">
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 mb-8 shadow-md border border-gray-100 dark:border-gray-700 hover:shadow-xl transition-all">
             <div className="flex justify-between items-center mb-6">
               <div>
                 <h2 className="text-2xl font-bold text-gray-800 dark:text-white">Recommended For You</h2>

@@ -5,7 +5,7 @@ import { useTheme } from "@/contexts/ThemeContext";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
 export function ThemeToggle() {
-  const { theme, toggleTheme } = useTheme();
+  const { theme, toggleTheme, setTheme } = useTheme();
 
   return (
     <DropdownMenu>
@@ -22,11 +22,11 @@ export function ThemeToggle() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="animate-fade-in">
-        <DropdownMenuItem onClick={() => document.documentElement.classList.add('light') || document.documentElement.classList.remove('dark')}>
+        <DropdownMenuItem onClick={() => setTheme('light')}>
           <Sun className="h-4 w-4 mr-2" />
           <span>Light</span>
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => document.documentElement.classList.add('dark') || document.documentElement.classList.remove('light')}>
+        <DropdownMenuItem onClick={() => setTheme('dark')}>
           <Moon className="h-4 w-4 mr-2" />
           <span>Dark</span>
         </DropdownMenuItem>

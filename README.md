@@ -1,73 +1,73 @@
-# Welcome to your Lovable project
 
-## Project info
+# FlipKart Clone E-Commerce Project
 
-**URL**: https://lovable.dev/projects/0c995fc3-5794-4ab6-92be-716bab779e24
+## Overview
 
-## How can I edit this code?
+This project is an e-commerce platform inspired by FlipKart, built with modern web technologies. It offers a responsive user interface with robust functionality for browsing and purchasing products online.
 
-There are several ways of editing your application.
+## Features
 
-**Use Lovable**
+- **Product Browsing**: Browse products by categories including Electronics, Fashion, Home & Kitchen, Beauty, and Sports & Fitness
+- **Product Details**: View detailed information about products including price, description, and stock availability
+- **Shopping Cart**: Add products to cart, update quantities, and proceed to checkout
+- **Dark/Light Theme**: Toggle between light and dark modes for comfortable viewing
+- **Responsive Design**: Optimized for all device sizes from mobile to desktop
+- **Search Functionality**: Search for products across all categories
+- **User Authentication**: Register and login functionality
+- **Order Management**: View past orders and track order status
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/0c995fc3-5794-4ab6-92be-716bab779e24) and start prompting.
+## Technologies Used
 
-Changes made via Lovable will be committed automatically to this repo.
+- **React**: Frontend library for building the user interface
+- **TypeScript**: For type-safe code
+- **Tailwind CSS**: For responsive and custom styling
+- **React Router**: For navigation between pages
+- **Lucide-React**: For beautiful icons
+- **Shadcn-UI**: For component styling and design system
 
-**Use your preferred IDE**
+## Screenshots
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+The application features a clean, modern interface with:
+- Home page with featured products and category navigation
+- Product listing pages with filtering options
+- Detailed product view pages
+- Cart and checkout flow
+- User account management
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## Getting Started
 
-Follow these steps:
+To run this project locally:
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+# Clone the repository
+git clone <repository-url>
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+# Navigate to the project directory
+cd flipkart-clone
 
-# Step 3: Install the necessary dependencies.
-npm i
+# Install dependencies
+npm install
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Start the development server
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+## Project Structure
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+The project follows a modular structure:
 
-**Use GitHub Codespaces**
+- `src/components`: Reusable UI components
+- `src/pages`: Main application pages
+- `src/contexts`: React contexts for state management
+- `src/services`: Services for fetching data
+- `src/data`: Mock data for development
+- `src/types`: TypeScript type definitions
+- `src/hooks`: Custom React hooks
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## Future Enhancements
 
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/0c995fc3-5794-4ab6-92be-716bab779e24) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes it is!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+- Integration with a real payment gateway
+- Product reviews and ratings
+- User wishlists
+- Advanced filtering and sorting options
+- Admin dashboard for product management
