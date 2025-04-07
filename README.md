@@ -1,9 +1,46 @@
 
 # FlipKart Clone E-Commerce Project
 
-## Overview
+A full-stack e-commerce application inspired by FlipKart, providing a comprehensive shopping experience with modern UI and robust backend functionality.
 
-This project is an e-commerce platform inspired by FlipKart, built with modern web technologies. It offers a responsive user interface with robust functionality for browsing and purchasing products online.
+## Project Structure
+
+The project is organized into two main parts:
+
+- **client**: Frontend React application
+- **server**: Backend API service
+
+## Getting Started
+
+### Frontend Setup
+
+```sh
+# Navigate to the client directory
+cd client
+
+# Install dependencies
+npm install
+
+# Start the development server
+npm run dev
+```
+
+### Backend Setup
+
+```sh
+# Navigate to the server directory
+cd server
+
+# Install dependencies
+npm install
+
+# Set up environment variables
+cp .env.example .env
+# Edit .env with your configurations
+
+# Start the development server
+npm run dev
+```
 
 ## Features
 
@@ -15,59 +52,23 @@ This project is an e-commerce platform inspired by FlipKart, built with modern w
 - **Search Functionality**: Search for products across all categories
 - **User Authentication**: Register and login functionality
 - **Order Management**: View past orders and track order status
+- **Admin Dashboard**: Manage products, orders, and user accounts
 
 ## Technologies Used
 
-- **React**: Frontend library for building the user interface
-- **TypeScript**: For type-safe code
-- **Tailwind CSS**: For responsive and custom styling
-- **React Router**: For navigation between pages
-- **Lucide-React**: For beautiful icons
-- **Shadcn-UI**: For component styling and design system
+### Frontend
+- React with TypeScript
+- Tailwind CSS for styling
+- React Router for navigation
+- Tanstack Query for data fetching
+- Shadcn UI components
 
-## Screenshots
+### Backend
+- Node.js and Express
+- RESTful API architecture
+- JWT authentication
+- Database for data persistence
 
-The application features a clean, modern interface with:
-- Home page with featured products and category navigation
-- Product listing pages with filtering options
-- Detailed product view pages
-- Cart and checkout flow
-- User account management
+## Deployment
 
-## Getting Started
-
-To run this project locally:
-
-```sh
-# Clone the repository
-git clone <repository-url>
-
-# Navigate to the project directory
-cd flipkart-clone
-
-# Install dependencies
-npm install
-
-# Start the development server
-npm run dev
-```
-
-## Project Structure
-
-The project follows a modular structure:
-
-- `src/components`: Reusable UI components
-- `src/pages`: Main application pages
-- `src/contexts`: React contexts for state management
-- `src/services`: Services for fetching data
-- `src/data`: Mock data for development
-- `src/types`: TypeScript type definitions
-- `src/hooks`: Custom React hooks
-
-## Future Enhancements
-
-- Integration with a real payment gateway
-- Product reviews and ratings
-- User wishlists
-- Advanced filtering and sorting options
-- Admin dashboard for product management
+See the individual README files in the client and server directories for specific deployment instructions.
